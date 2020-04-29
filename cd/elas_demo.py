@@ -22,6 +22,13 @@ double pe9 = pe + pars[ipar] + pars[ipar+1]*the + pars[ipar+2]*the*the + pars[ip
 return pe9;
 """
 
+E0 = 10.6
+if '7GeV' in sys.argv[1]:
+  E0 = 7.54626
+elif '6GeV' in sys.argv[1]:
+  E0 = 6.53536
+
+
 wcalc="""
 double E0=10.6, Mpro=0.938;
 
