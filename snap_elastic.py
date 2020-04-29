@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/apps/bin/python
 
-import sys, ROOT, math
+import sys, ROOT, math, re
 from array import array
 
 ROOT.ROOT.EnableImplicitMT(12)
@@ -16,13 +16,19 @@ for fname in fnames:
   fns.push_back(fname)
 
 
+mm = re.search("\d{4,8}", fnames[0])
+run = int(mm.group(0))
+
+
 mpro = 0.938
-beam = ROOT.TLorentzVector(0,0,10.6,10.6)
-targ = ROOT.TLorentzVector(0,0,0,mpro)
+E0 = 10.6
+if run>=5674 and run<=5870:
+  E0 = 7.54626
+elif run>5870 and run<=6000:
+  E0 = 6.53536
 
 
-phistring = """
-double E0=10.6, Mpro=0.938;
+phistring = "double E0=" + str(E0) + ", Mpro=0.938;" + """
 
 TLorentzVector beam(0,0,E0,E0);
 TLorentzVector targ(0,0,0,Mpro);
@@ -127,7 +133,7 @@ cols = elasdf.GetColumnNames()
 ivals = list(cols).index('vals')
 cols.erase(cols.begin()+ivals)
 
-fname = 'snap.{}.{:03d}.root'.format(detname, len(fnames))
+fname = 'snap.{}.{:d}GeV.{:03d}.root'.format(detname, int(E0), len(fnames))
 elasdf.Snapshot('h22',fname,cols)
 
 ff = ROOT.TFile(fname,'update')
