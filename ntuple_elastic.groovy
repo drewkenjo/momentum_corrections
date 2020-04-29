@@ -17,7 +17,6 @@ Sugar.enable()
 
 def hists = new ConcurrentHashMap()
 
-def beam = LorentzVector.withPID(11,0,0,10.6)
 def target = LorentzVector.withPID(2212,0,0,0)
 
 def hdfi = {new H1F("$it","$it",400,150,210)}
@@ -30,6 +29,15 @@ def ff = new ROOTFile("elastic.root")
 def tt = ff.makeNtuple('h22','elastic','ex:ey:ez:px:py:pz:idet:sec')
 
 args.each{fname->
+  def mm = fname.split('/')[-1] =~ /\d{4,7}/
+  def run = mm[0].toInteger()
+
+  def E0 = 10.6
+  if(run>=5674 && run<=5870) E0 = 7.54626
+  else if(run>5870 && run<=6000) E0 = 6.53536
+  def beam = LorentzVector.withPID(11,0,0,E0)
+
+
   def reader = new HipoDataSource()
   reader.open(fname)
 
