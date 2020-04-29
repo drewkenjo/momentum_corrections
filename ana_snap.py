@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/apps/bin/python
 
 import sys, ROOT, math
 import numpy as np
