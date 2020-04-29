@@ -25,7 +25,7 @@ def hmm2 = {new H1F("$it","$it",200,-1.5,1.5)}
 
 def banknames = ['REC::Particle','REC::Calorimeter']
 
-def ff = new ROOTFile("elastic.root")
+def ff = new ROOTFile("elastic_"+args[0].split('/').last().replace(".hipo", ".root"))
 def tt = ff.makeNtuple('h22','elastic','ex:ey:ez:px:py:pz:idet:sec')
 
 args.each{fname->
